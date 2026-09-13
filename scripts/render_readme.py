@@ -17,6 +17,9 @@ ROWS = [
     ("field", "", "Professional Cloud DevOps Engineer"),
     ("field", "Remote from", "Goiânia - Goiás - Brazil"),
     ("blank", "", ""),
+    ("section", "Open source projects", ""),
+    ("field", "Contributing", "runtz.dev"),
+    ("blank", "", ""),
     ("section", "Setup", ""),
     ("field", "Laptop", "Xiaomi Book Pro 2016"),
     ("field", "", "4K OLED / 16:10"),
@@ -40,9 +43,6 @@ ROWS = [
     ("field", "", "cloudflare-tunnel-ingress-controller"),
     ("field", "Storage", "OpenEBS"),
     ("field", "Network", "Flannel"),
-    ("blank", "", ""),
-    ("section", "Open source projects", ""),
-    ("field", "Contributing", "runtz.dev"),
 ]
 
 
@@ -56,7 +56,7 @@ def main():
     parts = [
         f'<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height}" viewBox="0 0 {width} {height}" role="img" aria-labelledby="title desc">',
         '<title id="title">DevOps Engineer — screenfetch profile</title>',
-        '<desc id="desc">An ASCII rose on the left. Professional experience, desk setup, home lab, and open source contributions on the right. A plain-text version is available in the README.</desc>',
+        '<desc id="desc">An ASCII rose on the left. Professional experience, desk setup, home lab, and open source contributions on the right.</desc>',
         '<rect x="0.5" y="0.5" width="1119" height="863" rx="14" fill="#0d1117" stroke="#30363d"/>',
         '<path d="M1 48H1119" stroke="#21262d"/>',
         '<circle cx="26" cy="25" r="5" fill="#ff7b72"/>',
@@ -84,40 +84,12 @@ def main():
     parts.append('</svg>')
     (ROOT / 'assets/screenfetch.svg').write_text('\n'.join(parts) + '\n')
 
-    # One preformatted block keeps the two columns together on GitHub.
-    line_count = max(len(ROWS), len(rose))
-    art_top = (line_count - len(rose)) // 2
-    plain = []
-    for i in range(line_count):
-        kind, label, value = ROWS[i] if i < len(ROWS) else ('blank', '', '')
-        left = rose[i - art_top] if art_top <= i < art_top + len(rose) else ''
-        if kind == 'section':
-            right = f'-- {label}'
-        elif kind == 'field':
-            right = f'{label + ":" if label else "":<15}{value}'
-        else:
-            right = label
-        plain.append(f'{left:<{art_width}}   {right}'.rstrip())
-
     readme = '\n'.join([
         '<!-- Edit scripts/render_readme.py and run python3 scripts/render_readme.py to update this profile. -->',
         '',
         '<p align="center">',
-        '  <img src="./assets/screenfetch.svg" width="1120" alt="Screenfetch profile: an ASCII rose beside my DevOps role, certification, setup, home lab, and open source contribution. Expand the plain-text version below for all details.">',
+        '  <img src="./assets/screenfetch.svg" width="1120" alt="Screenfetch profile: an ASCII rose beside my DevOps role, certification, setup, home lab, and open source contribution.">',
         '</p>',
-        '',
-        '<p align="center">Contributing to <a href="https://runtz.dev">runtz.dev</a></p>',
-        '',
-        '<details>',
-        '<summary>Plain-text version</summary>',
-        '',
-        '```text',
-        '$ screenfetch',
-        '',
-        *plain,
-        '```',
-        '',
-        '</details>',
         '',
     ])
     (ROOT / 'README.md').write_text(readme)
